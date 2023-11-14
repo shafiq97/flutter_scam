@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -46,6 +48,7 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
     }).toList();
     setState(() {
       _filteredFrauds = filteredFrauds;
+      log(_filteredFrauds.toString());
     });
   }
 
@@ -79,14 +82,23 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
                     ListTile(
                       title: Row(
                         children: [
-                          Text("Name - ",style: TextStyle(fontSize: 15),),
-                          Text(fraudName,style: TextStyle(fontWeight: FontWeight.bold),)
+                          Text(
+                            "Name - ",
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          Text(
+                            fraudName,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
                         ],
                       ),
                       subtitle: Row(
                         children: [
                           Text("Phone - "),
-                          Text(fraudPhoneNumber,style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text(
+                            fraudPhoneNumber,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                       onTap: () {
@@ -117,7 +129,9 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => PhoneFraud(user: widget.user,)));
+              builder: (context) => PhoneFraud(
+                    user: widget.user,
+                  )));
         },
       ),
     );

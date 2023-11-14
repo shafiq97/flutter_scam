@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import '../../utilities/PhoneImgPicker.dart';
 
-
 class PhoneFraud extends StatefulWidget {
   User user;
   PhoneFraud({required this.user});
@@ -24,10 +23,8 @@ class _PhoneFraudState extends State<PhoneFraud> {
   String selectedPhoneCode = "+91";
   final _formKey = GlobalKey<FormState>();
 
-
   @override
   void dispose() {
-
     multiImages?.clear();
     pickedimages?.clear();
     super.dispose();
@@ -35,8 +32,6 @@ class _PhoneFraudState extends State<PhoneFraud> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Details"),
@@ -49,25 +44,34 @@ class _PhoneFraudState extends State<PhoneFraud> {
           child: ListView(
             children: <Widget>[
               giveSpace(),
-              customInputField('Name', firstName, TextInputType.name, Icons.person),
+              customInputField(
+                  'Name', firstName, TextInputType.name, Icons.person),
               giveSpace(),
-              customInputField('Wallet Name', walletName, TextInputType.multiline, Icons.account_balance_wallet_rounded),
+              customInputField(
+                  'Wallet Name',
+                  walletName,
+                  TextInputType.multiline,
+                  Icons.account_balance_wallet_rounded),
               giveSpace(),
               Row(
                 children: [
                   CountryCodePicker(
-                    onChanged: (CountryCode countryCode) =>
-                        setState(() => selectedPhoneCode = countryCode.dialCode!),
-                    initialSelection: 'IN',
-                    favorite: [ 'IN'],
+                    onChanged: (CountryCode countryCode) => setState(
+                        () => selectedPhoneCode = countryCode.dialCode!),
+                    initialSelection: 'MY',
+                    favorite: ['MY'],
                   ),
-                  Expanded(child: customInputField('Phone Number', phoneNumber, TextInputType.phone, Icons.phone)),
+                  Expanded(
+                      child: customInputField('Phone Number', phoneNumber,
+                          TextInputType.phone, Icons.phone)),
                 ],
               ),
               giveSpace(),
-              customInputField('Transaction Id', transactionID, TextInputType.multiline, Icons.confirmation_number_outlined),
+              customInputField('Transaction Id', transactionID,
+                  TextInputType.multiline, Icons.confirmation_number_outlined),
               giveSpace(),
-              customInputField('Description', description, TextInputType.multiline,Icons.insert_drive_file_outlined ),
+              customInputField('Description', description,
+                  TextInputType.multiline, Icons.insert_drive_file_outlined),
               giveSpace(),
               PhoneFraudImages(),
               giveSpace(),
@@ -81,12 +85,10 @@ class _PhoneFraudState extends State<PhoneFraud> {
                   color: Colors.blue.shade800,
                   child: MaterialButton(
                     onPressed: () async {
-
                       //  uploading the files and storing the data to the firestore
                       if (_formKey.currentState!.validate()) {
-
                         multiImages = await multiImageUploader(pickedimages!);
-                        FirebaseFirestore.instance.collection('mob').add({
+                        FirebaseFirestore.instance.collection('mobile').add({
                           'firstName': firstName.text,
                           'WalletName': walletName.text,
                           'countryCode': selectedPhoneCode,
@@ -95,7 +97,8 @@ class _PhoneFraudState extends State<PhoneFraud> {
                           'description': description.text,
                           'images': multiImages
                         }).whenComplete(() {
-                          Fluttertoast.showToast(msg: "Fraud Details uploaded :) ");
+                          Fluttertoast.showToast(
+                              msg: "Fraud Details uploaded :) ");
                         });
 
                         print(firstName.text);
@@ -105,9 +108,7 @@ class _PhoneFraudState extends State<PhoneFraud> {
                         print(description.text);
                         print('validated');
                         Navigator.pop(context);
-
-                      }
-                      else{
+                      } else {
                         print('enter values');
                         Fluttertoast.showToast(msg: "Enter all Fields :( ");
                       }
@@ -129,13 +130,14 @@ class _PhoneFraudState extends State<PhoneFraud> {
     );
   }
 
-  Widget giveSpace(){
+  Widget giveSpace() {
     return SizedBox(
       height: 18,
     );
   }
 
-  Widget customInputField(String hintText, TextEditingController controller, TextInputType keyboardType, IconData iconData){
+  Widget customInputField(String hintText, TextEditingController controller,
+      TextInputType keyboardType, IconData iconData) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 5,
@@ -171,7 +173,8 @@ class _PhoneFraudState extends State<PhoneFraud> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             borderSide: BorderSide(color: Colors.white, width: 2),
           ),
-        ),),
+        ),
+      ),
     );
   }
 }
