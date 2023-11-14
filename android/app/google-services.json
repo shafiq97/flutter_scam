@@ -1,0 +1,87 @@
+{
+  "project_info": {
+    "project_number": "933921768722",
+    "project_id": "fraudradar-d500f",
+    "storage_bucket": "fraudradar-d500f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933921768722:android:7bea3f1ed8b0688a325fcb",
+        "android_client_info": {
+          "package_name": "com.techinestonia.fraudradar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933921768722-0c0pghhnp8snnbmmbb2u886fgunet5il.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techinestonia.fraudradar",
+            "certificate_hash": "42f245c927fc9ea16349061166164d73e2c94b44"
+          }
+        },
+        {
+          "client_id": "933921768722-1tqk7js3f43lh8mtttvohn4jbshvc6nq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techinestonia.fraudradar",
+            "certificate_hash": "72cca7b24e8700c427e486ec826b42f5d0117234"
+          }
+        },
+        {
+          "client_id": "933921768722-6u0p0hn2p3ess0n4b3li60ulcprupkb4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techinestonia.fraudradar",
+            "certificate_hash": "1fdac7bcaa16c6339ae0f648765f5e334568240c"
+          }
+        },
+        {
+          "client_id": "933921768722-d26sqnthdves6vp053fr9l0c5lmpdseb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techinestonia.fraudradar",
+            "certificate_hash": "a7faea7947fdd916408581485bcc6190ad6cf152"
+          }
+        },
+        {
+          "client_id": "933921768722-i1cv4r5uhvov623vrv6lbrfsrposjj8v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techinestonia.fraudradar",
+            "certificate_hash": "9415471c152f1f4e62a9d918527480a759ffa270"
+          }
+        },
+        {
+          "client_id": "933921768722-sq89urrqs4rllik6lde6tfl6q9ciak00.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techinestonia.fraudradar",
+            "certificate_hash": "1591857777c2e2316fbdb8abfa894024a74ac68e"
+          }
+        },
+        {
+          "client_id": "933921768722-igoep7mmgvjuad0eqjch2h6r923mu4cm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfdIWLwY7h23qRz_0jidp16hTTVTPWP_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933921768722-igoep7mmgvjuad0eqjch2h6r923mu4cm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
