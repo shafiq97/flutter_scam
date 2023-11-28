@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,6 @@ class SignUpWithGooglePage extends StatefulWidget {
 class _SignUpWithGooglePageState extends State<SignUpWithGooglePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  String _errorMessage = '';
   bool isLoad = false;
 
   Future<UserCredential?> _signInWithGoogle() async {
@@ -42,21 +43,14 @@ class _SignUpWithGooglePageState extends State<SignUpWithGooglePage> {
             'photoUrl': user.user?.photoURL,
             'joiningDate': FieldValue.serverTimestamp(),
           })
-          .then((value) => print('User Added'))
-          .catchError((error) => print('Failed to add user: $error'));
+          .then((value) => log('User Added'))
+          .catchError((error) => log('Failed to add user: $error'));
       return user;
     } catch (e) {
-      setState(() {
-        _errorMessage = 'Error signing in';
-      });
-      print(e.toString());
+      setState(() {});
+      log(e.toString());
       return null;
     }
-  }
-
-  void _signOut() async {
-    await _googleSignIn.signOut();
-    await _auth.signOut();
   }
 
   void _navigateToHomePage() {
@@ -90,7 +84,7 @@ class _SignUpWithGooglePageState extends State<SignUpWithGooglePage> {
                     Align(
                         alignment: Alignment.center,
                         child: GoogleAuthButton(
-                            darkMode: true,
+                            themeMode: ThemeMode.dark,
                             onPressed: () async {
                               setState(() {
                                 isLoad = true;
@@ -101,7 +95,7 @@ class _SignUpWithGooglePageState extends State<SignUpWithGooglePage> {
                                   _navigateToHomePage();
                                 }
                               });
-                            }))
+                            })),
                   ]))),
     );
   }

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AppState(),
+      home: const AppState(),
     );
   }
 }
@@ -32,16 +32,20 @@ class AppState extends StatefulWidget {
 }
 
 class _AppStateState extends State<AppState> {
-  User? user ;
+  User? user;
 
   @override
   void initState() {
-    user= FirebaseAuth.instance.currentUser;
+    user = FirebaseAuth.instance.currentUser;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return user==null ? SignUpWithGooglePage(): user!.phoneNumber==null?RegisterAct():HomeAct(user:user!);
+    return user == null
+        ? const SignUpWithGooglePage()
+        : user!.phoneNumber == null
+            ? RegisterAct()
+            : HomeAct(user: user!);
   }
 }
-

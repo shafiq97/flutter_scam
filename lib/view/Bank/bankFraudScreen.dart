@@ -151,7 +151,7 @@ class _BankFraudScreenState extends State<BankFraudScreen> {
                               transactionID: fraudtransactionid)),
                     );
                   },
-                  trailing: widget.user.email != 'admin@gmail.com'
+                  trailing: widget.user.email == 'muhammadshafiq457@gmail.com'
                       ? IconButton(
                           icon: const Icon(Icons.delete),
                           onPressed: () {

@@ -132,17 +132,18 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
                           ),
                         );
                       },
-                      trailing: widget.user.email == 'admin@gmail.com'
-                          ? IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                _showDeleteConfirmation(
-                                    context,
-                                    fraud[
-                                        'documentId']); // Pass the document ID to the method
-                              },
-                            )
-                          : null,
+                      trailing:
+                          widget.user.email == 'muhammadshafiq457@gmail.com'
+                              ? IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    _showDeleteConfirmation(
+                                        context,
+                                        fraud[
+                                            'documentId']); // Pass the document ID to the method
+                                  },
+                                )
+                              : null,
                     ),
                     const Divider(),
                   ],
