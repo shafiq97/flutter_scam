@@ -17,7 +17,8 @@ class _BankFraudScreenState extends State<BankFraudScreen> {
   late List<Map<String, dynamic>> _allFrauds;
   late List<Map<String, dynamic>> _filteredFrauds;
   TextEditingController _searchController = TextEditingController();
-
+  int _fraudCount = 0;
+  String _dangerInfo = '';
   @override
   void initState() {
     super.initState();
@@ -38,14 +39,19 @@ class _BankFraudScreenState extends State<BankFraudScreen> {
 
   void _filterFrauds(String query) {
     final filteredGroups = _allFrauds.where((group) {
-      final fraudName = group['firstName'] ?? '';
-      final fraudDescription = group['accountNumber'] ?? '';
-      return fraudName.toLowerCase().contains(query.toLowerCase()) ||
-          fraudDescription.toLowerCase().contains(query.toLowerCase());
+      final fraudAccountNumber = group['accountNumber'] ?? '';
+      return fraudAccountNumber.toLowerCase().contains(query.toLowerCase());
     }).toList();
     setState(() {
       _filteredFrauds = filteredGroups;
+      _fraudCount = filteredGroups.length;
     });
+    if (_fraudCount > 0) {
+      _dangerInfo =
+          'WARNING: $_fraudCount reports found for this account number!';
+    } else {
+      _dangerInfo = '';
+    }
   }
 
   @override
@@ -57,7 +63,7 @@ class _BankFraudScreenState extends State<BankFraudScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _searchController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Search by Account Number',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(),
@@ -79,40 +85,55 @@ class _BankFraudScreenState extends State<BankFraudScreen> {
                 return ListTile(
                   title: Row(
                     children: [
-                      Text("Name - ",style: TextStyle(fontSize: 15),),
-                      Text(fraudName,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                      const Text(
+                        "Name - ",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      Text(
+                        fraudName,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
                     ],
                   ),
                   subtitle: Row(
                     children: [
-                      Text("  A/C    - "),
-                      Text(fraudaccountnumber,style: TextStyle(fontWeight: FontWeight.bold)),
+                      const Text("  A/C    - "),
+                      Text(fraudaccountnumber,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => BankDetailScreen(
-                            images: fraud['images'],
-                            desc: fraudDescription,
-                            fraudName: fraudName,
-                            WalletName: fraudbankname,
-                            bankifsc: fraudifsc,
-                            phoneNumber: fraudaccountnumber,
-                            transactionID: fraudtransactionid)
-                      ),
+                          builder: (context) => BankDetailScreen(
+                              images: fraud['images'],
+                              desc: fraudDescription,
+                              fraudName: fraudName,
+                              WalletName: fraudbankname,
+                              bankifsc: fraudifsc,
+                              phoneNumber: fraudaccountnumber,
+                              transactionID: fraudtransactionid)),
                     );
-
                   },
                 );
               },
             ),
           ),
+          if (_dangerInfo.isNotEmpty) // Display the danger info only once
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                _dangerInfo,
+                style: const TextStyle(
+                    color: Colors.red, fontWeight: FontWeight.bold),
+              ),
+            ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue[800],
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => BankFraud(user: widget.user)));
