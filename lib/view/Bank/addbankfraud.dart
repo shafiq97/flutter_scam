@@ -6,10 +6,10 @@ import 'package:fraudrader/utilities/PhoneImgPicker.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class BankFraud extends StatefulWidget {
-  User user;
-  BankFraud({required this.user});
+  final User user;
+  const BankFraud({super.key, required this.user});
   @override
-  _BankFraudState createState() => _BankFraudState();
+  State<BankFraud> createState() => _BankFraudState();
 }
 
 class _BankFraudState extends State<BankFraud> {
@@ -35,11 +35,11 @@ class _BankFraudState extends State<BankFraud> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Details"),
+        title: const Text("Details"),
         backgroundColor: Colors.blue.shade800,
       ),
       body: Container(
-        padding: EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -66,7 +66,7 @@ class _BankFraudState extends State<BankFraud> {
               PhoneFraudImages(),
               giveSpace(),
               Container(
-                margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                margin: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                 width: 400,
                 child: Card(
                   shape: RoundedRectangleBorder(
@@ -77,9 +77,10 @@ class _BankFraudState extends State<BankFraud> {
                     onPressed: () async {
                       //upload files to storage and save the data to firestore
                       if (_formKey.currentState!.validate()) {
-                        Fluttertoast.showToast(msg: "Fraud Details uploaded :) ");
+                        Fluttertoast.showToast(
+                            msg: "Fraud Details uploaded :) ");
                         multiImages = await multiImageUploader(pickedimages!);
-                        FirebaseFirestore.instance.collection('ban').add({
+                        FirebaseFirestore.instance.collection('bank').add({
                           'fraudName': fraudName.text,
                           'bankName': bankName.text,
                           'accountNumber': accountNumber.text,
@@ -89,13 +90,11 @@ class _BankFraudState extends State<BankFraud> {
                           'images': multiImages
                         });
                         Navigator.pop(context);
-                      }
-                      else{
+                      } else {
                         Fluttertoast.showToast(msg: "Fill all the fields :( ");
                       }
-
                     },
-                    child: Text(
+                    child: const Text(
                       "Submit.",
                       style: TextStyle(
                         color: Colors.white,
@@ -113,7 +112,7 @@ class _BankFraudState extends State<BankFraud> {
   }
 
   Widget giveSpace() {
-    return SizedBox(
+    return const SizedBox(
       height: 18,
     );
   }

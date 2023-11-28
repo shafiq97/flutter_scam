@@ -5,10 +5,10 @@ import 'package:fraudrader/view/Bank/addbankfraud.dart';
 import 'package:fraudrader/view/Bank/bankDetailScreen.dart';
 
 class BankFraudScreen extends StatefulWidget {
-  User user;
-  BankFraudScreen({required this.user});
+  final User user;
+  const BankFraudScreen({super.key, required this.user});
   @override
-  _BankFraudScreenState createState() => _BankFraudScreenState();
+  State<BankFraudScreen> createState() => _BankFraudScreenState();
 }
 
 class _BankFraudScreenState extends State<BankFraudScreen> {
@@ -16,7 +16,7 @@ class _BankFraudScreenState extends State<BankFraudScreen> {
       FirebaseFirestore.instance.collection('bank');
   late List<Map<String, dynamic>> _allFrauds;
   late List<Map<String, dynamic>> _filteredFrauds;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   int _fraudCount = 0;
   String _dangerInfo = '';
   @override
