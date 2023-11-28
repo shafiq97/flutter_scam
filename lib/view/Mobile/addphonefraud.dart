@@ -1,17 +1,19 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import '../../utilities/PhoneImgPicker.dart';
 
 class PhoneFraud extends StatefulWidget {
-  User user;
-  PhoneFraud({required this.user});
+  final User user;
+  final VoidCallback onFraudAdded;
+  const PhoneFraud({super.key, required this.user, required this.onFraudAdded});
 
   @override
-  _PhoneFraudState createState() => _PhoneFraudState();
+  State<PhoneFraud> createState() => _PhoneFraudState();
 }
 
 class _PhoneFraudState extends State<PhoneFraud> {
@@ -97,19 +99,20 @@ class _PhoneFraudState extends State<PhoneFraud> {
                           'description': description.text,
                           'images': multiImages
                         }).whenComplete(() {
+                          widget.onFraudAdded.call();
                           Fluttertoast.showToast(
                               msg: "Fraud Details uploaded :) ");
                         });
 
-                        print(firstName.text);
-                        print(walletName.text);
-                        print(phoneNumber.text);
-                        print(transactionID.text);
-                        print(description.text);
-                        print('validated');
+                        log(firstName.text);
+                        log(walletName.text);
+                        log(phoneNumber.text);
+                        log(transactionID.text);
+                        log(description.text);
+                        log('validated');
                         Navigator.pop(context);
                       } else {
-                        print('enter values');
+                        log('enter values');
                         Fluttertoast.showToast(msg: "Enter all Fields :( ");
                       }
                     },

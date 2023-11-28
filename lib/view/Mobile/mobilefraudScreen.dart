@@ -7,8 +7,8 @@ import 'package:fraudrader/view/Mobile/addphonefraud.dart';
 import 'package:fraudrader/view/Mobile/phonedetailscreen.dart';
 
 class MobileFraudScreen extends StatefulWidget {
-  User user;
-  MobileFraudScreen({super.key, required this.user});
+  final User user;
+  const MobileFraudScreen({super.key, required this.user});
 
   @override
   State<MobileFraudScreen> createState() => _MobileFraudScreenState();
@@ -20,7 +20,7 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
   late List<Map<String, dynamic>> _allFrauds;
   late List<Map<String, dynamic>> _filteredFrauds;
   final TextEditingController _searchController = TextEditingController();
-  int _fraudCount = 0; // New state to hold the count of matching fraud reports
+  int _fraudCount = 0;
   String _dangerInfo = '';
 
   @override
@@ -28,6 +28,10 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
     super.initState();
     _allFrauds = [];
     _filteredFrauds = [];
+    _fetchFrauds();
+  }
+
+  void onFraudAdded() {
     _fetchFrauds();
   }
 
@@ -164,6 +168,7 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => PhoneFraud(
                     user: widget.user,
+                    onFraudAdded: onFraudAdded, // Pass the callback here
                   )));
         },
       ),

@@ -7,7 +7,12 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class BankFraud extends StatefulWidget {
   final User user;
-  const BankFraud({super.key, required this.user});
+  final VoidCallback onFraudAdded; // Add this line
+  const BankFraud(
+      {super.key,
+      required this.user,
+      required this.onFraudAdded}); // Modify this line
+
   @override
   State<BankFraud> createState() => _BankFraudState();
 }
@@ -89,6 +94,8 @@ class _BankFraudState extends State<BankFraud> {
                           'description': description.text,
                           'images': multiImages
                         });
+                        widget.onFraudAdded.call();
+
                         Navigator.pop(context);
                       } else {
                         Fluttertoast.showToast(msg: "Fill all the fields :( ");

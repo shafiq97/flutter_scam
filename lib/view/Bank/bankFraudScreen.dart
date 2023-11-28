@@ -182,7 +182,10 @@ class _BankFraudScreenState extends State<BankFraudScreen> {
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => BankFraud(user: widget.user)));
+              builder: (context) => BankFraud(
+                    user: widget.user,
+                    onFraudAdded: () => _fetchFrauds(),
+                  )));
         },
       ),
     );
