@@ -156,7 +156,7 @@ class _BankFraudScreenState extends State<BankFraudScreen> {
                           icon: const Icon(Icons.delete),
                           onPressed: () {
                             _showDeleteConfirmation(
-                                context,
+                              context,
                                 fraud[
                                     'documentId']); // Pass the document ID to the method
                           },

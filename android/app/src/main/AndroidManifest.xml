@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
-        android:label="fraudrader"
+        android:label="SDRS"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 

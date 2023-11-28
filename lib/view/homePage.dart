@@ -43,7 +43,7 @@ class _HomeActState extends State<HomeAct> with SingleTickerProviderStateMixin {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.blue[800],
-        title: const Text("Fraud Rader"),
+        title: const Text("SDRS"),
       ),
       body: Container(
         padding: const EdgeInsets.all(8.0),

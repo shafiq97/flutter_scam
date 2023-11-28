@@ -1,6 +1,6 @@
 {
-    "name": "fraudrader",
-    "short_name": "fraudrader",
+    "name": "SDRS",
+    "short_name": "SDRS",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
