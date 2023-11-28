@@ -27,10 +27,45 @@ class _BankFraudScreenState extends State<BankFraudScreen> {
     _fetchFrauds();
   }
 
+  Future<void> _showDeleteConfirmation(
+      BuildContext context, String documentId) async {
+    final confirmDelete = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Confirm Delete'),
+              content: const Text('Are you sure you want to delete this item?'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Cancel'),
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+                TextButton(
+                  child: const Text('Delete'),
+                  onPressed: () => Navigator.of(context).pop(true),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
+
+    if (confirmDelete) {
+      // If confirmed, delete the document
+      await _fraudsCollection.doc(documentId).delete();
+      // Update the UI
+      _fetchFrauds();
+    }
+  }
+
   Future<void> _fetchFrauds() async {
     final snapshot = await _fraudsCollection.get();
-    final fraudsDetails =
-        snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+    final fraudsDetails = snapshot.docs.map((doc) {
+      return {
+        'documentId': doc.id, // Store the document ID
+        ...doc.data() as Map<String, dynamic>, // Spread the existing data
+      };
+    }).toList();
     setState(() {
       _allFrauds = fraudsDetails;
       _filteredFrauds = fraudsDetails;
@@ -116,6 +151,17 @@ class _BankFraudScreenState extends State<BankFraudScreen> {
                               transactionID: fraudtransactionid)),
                     );
                   },
+                  trailing: widget.user.email != 'admin@gmail.com'
+                      ? IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            _showDeleteConfirmation(
+                                context,
+                                fraud[
+                                    'documentId']); // Pass the document ID to the method
+                          },
+                        )
+                      : null,
                 );
               },
             ),
