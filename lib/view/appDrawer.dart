@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fraudrader/authenticate/googleSignIn.dart';
+import 'package:fraudrader/view/contact.dart';
 import 'package:fraudrader/view/profile.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -21,9 +22,10 @@ class AppDrawer extends StatelessWidget {
               color: Colors.blue,
             ),
           ),
-          const ListTile(
-            leading: Icon(Icons.policy),
-            title: Text('Privacy Policy'),
+          ListTile(
+            leading: const Icon(Icons.policy),
+            title: const Text('Contact Us'),
+            onTap: () => _contact(context),
           ),
           const Divider(),
           ListTile(
@@ -57,6 +59,12 @@ class AppDrawer extends StatelessWidget {
   void _profile(BuildContext context) async {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (ctx) => const UserProfilePage()),
+    );
+  }
+
+  void _contact(BuildContext context) async {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (ctx) => ContactUsPage()),
     );
   }
 }
