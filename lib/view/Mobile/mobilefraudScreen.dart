@@ -22,6 +22,7 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
   final TextEditingController _searchController = TextEditingController();
   int _fraudCount = 0;
   String _dangerInfo = '';
+  int _searchCount = 0;
 
   @override
   void initState() {
@@ -33,6 +34,42 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
 
   void onFraudAdded() {
     _fetchFrauds();
+  }
+
+  Future<void> _updateSearchCount(String searchText) async {
+    DocumentReference searchRef =
+        FirebaseFirestore.instance.collection('searchCounts').doc(searchText);
+
+    return FirebaseFirestore.instance
+        .runTransaction((transaction) async {
+          DocumentSnapshot snapshot = await transaction.get(searchRef);
+
+          if (!snapshot.exists) {
+            transaction.set(searchRef, {'count': 1});
+          } else {
+            // Cast the data to a Map<String, dynamic>
+            Map<String, dynamic> data =
+                snapshot.data() as Map<String, dynamic>? ?? {};
+            int currentCount = data['count'] ?? 0;
+            transaction.update(searchRef, {'count': currentCount + 1});
+          }
+        })
+        .then((value) => print("Search Count Updated"))
+        .catchError((error) => print("Failed to update search count: $error"));
+  }
+
+  Future<int> _getSearchCount(String searchText) async {
+    DocumentReference searchRef =
+        FirebaseFirestore.instance.collection('searchCounts').doc(searchText);
+
+    DocumentSnapshot snapshot = await searchRef.get();
+    if (snapshot.exists) {
+      // Cast the data to a Map<String, dynamic>
+      Map<String, dynamic> data =
+          snapshot.data() as Map<String, dynamic>? ?? {};
+      return data['count'] ?? 0;
+    }
+    return 0;
   }
 
   Future<void> _fetchFrauds() async {
@@ -49,23 +86,26 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
     });
   }
 
-  void _filterFrauds(String query) {
+  void _filterFrauds(String query) async {
     final filteredFrauds = _allFrauds.where((group) {
       final fraudName = group['firstName'] ?? '';
       final fraudDescription = group['phoneNumber'] ?? '';
       return fraudName.toLowerCase().contains(query.toLowerCase()) ||
           fraudDescription.toLowerCase().contains(query.toLowerCase());
     }).toList();
+    int searchCount = await _getSearchCount(query);
+
     setState(() {
       _filteredFrauds = filteredFrauds;
       _fraudCount = filteredFrauds.length;
-
+      _searchCount = searchCount; // New state variable to hold search count
       log(_filteredFrauds.toString());
     });
     if (_fraudCount > 0) {
-      _dangerInfo = 'WARNING: $_fraudCount reports found for this number!';
+      _dangerInfo =
+          'WARNING: $_fraudCount reports found for this number! Searched $_searchCount times.';
     } else {
-      _dangerInfo = '';
+      _dangerInfo = 'No report found, searched $_searchCount times';
     }
   }
 
@@ -76,14 +116,27 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: const InputDecoration(
-                labelText: 'Search by Phone Number',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-              ),
-              onChanged: _filterFrauds,
+            child: Row(
+              // Add Row to place TextField and IconButton in one line
+              children: [
+                Expanded(
+                  // Wrap TextField with Expanded
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: const InputDecoration(
+                      labelText: 'Search by Phone Number',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    _filterFrauds(_searchController.text);
+                    _updateSearchCount(_searchController.text);
+                  },
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -153,13 +206,16 @@ class _MobileFraudScreenState extends State<MobileFraudScreen> {
           ),
           if (_dangerInfo.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(9.0),
               child: Text(
                 _dangerInfo,
                 style: const TextStyle(
                     color: Colors.red, fontWeight: FontWeight.bold),
               ),
             ),
+          const SizedBox(
+            height: 50.0,
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
