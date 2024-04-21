@@ -48,9 +48,7 @@ class AppDrawer extends StatelessWidget {
     await GoogleSignIn().signOut();
 
     FirebaseAuth.instance.signOut().then((_) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => const SignUpWithGooglePage()),
-      );
+      Navigator.pushReplacementNamed(context, '/login');
     }).catchError((error) {
       print('Logout error: $error');
     });

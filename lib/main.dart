@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fraudrader/authenticate/login.dart';
+import 'package:fraudrader/authenticate/register.dart';
 import 'package:fraudrader/view/homePage.dart';
 import 'package:fraudrader/authenticate/registerAct.dart';
 import 'package:fraudrader/authenticate/googleSignIn.dart';
@@ -19,6 +21,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
+        '/home': (context) => RegisterAct(),
+        // Define other routes as needed
+      },
       home: const AppState(),
     );
   }
@@ -42,10 +51,11 @@ class _AppStateState extends State<AppState> {
 
   @override
   Widget build(BuildContext context) {
-    return user == null
-        ? const SignUpWithGooglePage()
-        : user!.phoneNumber == null
-            ? RegisterAct()
-            : HomeAct(user: user!);
+    // return user == null
+    //     ? const SignUpWithGooglePage()
+    //     : user!.phoneNumber == null
+    //         ? RegisterAct()
+    //         : HomeAct(user: user!);
+    return LoginScreen();
   }
 }

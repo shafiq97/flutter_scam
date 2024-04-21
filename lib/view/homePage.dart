@@ -24,9 +24,11 @@ class _HomeActState extends State<HomeAct> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    //   print(FirebaseAuth.instance.currentUser);
-    name = widget.user.displayName!;
-    email = widget.user.email!;
+
+    // Using null-aware operators to provide default values if the fields are null
+    name = widget.user.email ?? 'username';
+    email = widget.user.email ?? 'user@gmail.com';
+
     _tabController = TabController(length: 2, vsync: this);
   }
 

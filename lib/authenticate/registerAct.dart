@@ -12,7 +12,7 @@ class RegisterAct extends StatefulWidget {
 }
 
 class _RegisterActState extends State<RegisterAct> {
-  String selectedPhoneCode = "+91";
+  String selectedPhoneCode = "+60";
 
   final TextEditingController numberController = TextEditingController();
 
@@ -50,7 +50,7 @@ class _RegisterActState extends State<RegisterAct> {
                   ? "Enter your Mobile Number to verify yourself"
                   : "OTP"),
             ),
-            SizedBox(height: 18.0),
+            const SizedBox(height: 18.0),
             code == ''
                 ? Card(
                     shape: RoundedRectangleBorder(
@@ -81,14 +81,14 @@ class _RegisterActState extends State<RegisterAct> {
                               hintStyle: TextStyle(color: Colors.blue.shade900),
                               filled: true,
                               fillColor: Colors.white70,
-                              enabledBorder: OutlineInputBorder(
+                              enabledBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(12.0),
                                 ),
                                 borderSide:
                                     BorderSide(color: Colors.white, width: 2),
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(10.0),
                                 ),
@@ -121,14 +121,14 @@ class _RegisterActState extends State<RegisterAct> {
                           hintStyle: TextStyle(color: Colors.blue.shade900),
                           filled: true,
                           fillColor: Colors.white70,
-                          enabledBorder: OutlineInputBorder(
+                          enabledBorder: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(12.0),
                             ),
                             borderSide:
                                 BorderSide(color: Colors.white, width: 2),
                           ),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(10.0),
                             ),
@@ -141,10 +141,10 @@ class _RegisterActState extends State<RegisterAct> {
                   ),
             code == ''
                 ? Visibility(
-                    replacement: Text('Enter 10 digit number'),
+                    replacement: const Text('Enter 10 digit number'),
                     visible: isNumber,
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                      margin: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                       width: 400,
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -154,36 +154,41 @@ class _RegisterActState extends State<RegisterAct> {
                         color: Colors.blue.shade700,
                         child: MaterialButton(
                           onPressed: () async {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        HomeAct(user: _auth.currentUser!)));
                             setState(() {
                               isLoad = true;
                             });
                             //verify the user phone number and link it with firebase user credential.
-                            await _auth.verifyPhoneNumber(
-                              phoneNumber:
-                                  selectedPhoneCode + numberController.text,
-                              verificationCompleted: (a) async {
-                                print('verifivation complete');
-                              },
-                              verificationFailed: (e) {
-                                log(e.toString());
-                              },
-                              codeSent: (codesent, cod) async {
-                                log(codesent.toString());
-                                setState(() {
-                                  code = codesent;
-                                });
-                              },
-                              codeAutoRetrievalTimeout: (t) {
-                                print(t);
-                              },
-                            );
+                            // await _auth.verifyPhoneNumber(
+                            //   phoneNumber:
+                            //       selectedPhoneCode + numberController.text,
+                            //   verificationCompleted: (a) async {
+                            //     print('verifivation complete');
+                            //   },
+                            //   verificationFailed: (e) {
+                            //     log(e.toString());
+                            //   },
+                            //   codeSent: (codesent, cod) async {
+                            //     log(codesent.toString());
+                            //     setState(() {
+                            //       code = codesent;
+                            //     });
+                            //   },
+                            //   codeAutoRetrievalTimeout: (t) {
+                            //     print(t);
+                            //   },
+                            // );
                             setState(() {
-                              loading = true;
+                              loading = false;
                             });
                           },
                           child: code == '' && loading
-                              ? CircularProgressIndicator()
-                              : Text(
+                              ? const CircularProgressIndicator()
+                              : const Text(
                                   "Verify",
                                   style: TextStyle(
                                     color: Colors.white,
@@ -195,7 +200,7 @@ class _RegisterActState extends State<RegisterAct> {
                     ),
                   )
                 : Container(
-                    margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    margin: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                     width: 400,
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -222,12 +227,12 @@ class _RegisterActState extends State<RegisterAct> {
                           //     'phoneNumber': _auth.currentUser?.phoneNumber
                           //   });
                           // });
-                          await FirebaseFirestore.instance
-                              .collection('tempusers')
-                              .doc(_auth.currentUser?.uid)
-                              .update({
-                            'phoneNumber': _auth.currentUser?.phoneNumber
-                          });
+                          // await FirebaseFirestore.instance
+                          //     .collection('tempusers')
+                          //     .doc(_auth.currentUser?.uid)
+                          //     .update({
+                          //   'phoneNumber': _auth.currentUser?.phoneNumber
+                          // });
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -236,7 +241,7 @@ class _RegisterActState extends State<RegisterAct> {
                         },
                         child:
                             //isLoad ? CircularProgressIndicator():
-                            Text(
+                            const Text(
                           "Submit otp",
                           style: TextStyle(
                             color: Colors.white,

@@ -91,9 +91,11 @@ class _SignUpWithGooglePageState extends State<SignUpWithGooglePage> {
                               });
 
                               _signInWithGoogle().then((userCredential) {
-                                if (userCredential != null) {
-                                  _navigateToHomePage();
-                                }
+                                // if (userCredential != null) {
+                                //   _navigateToHomePage();
+                                // }
+                                _navigateToHomePage();
+                                
                               });
                             })),
                   ]))),
